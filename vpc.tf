@@ -11,7 +11,7 @@ provider "aws" {
 data "aws_availability_zones" "available" {}
 
 locals {
-  cluster_name = "rn-demo-eks-${random_string.suffix.result}"
+  cluster_name = "my-demo-eks-${random_string.suffix.result}"
 }
 
 resource "random_string" "suffix" {
@@ -23,7 +23,7 @@ module "vpc" {
   source  = "terraform-aws-modules/vpc/aws"
   version = "2.6.0"
 
-  name                 = "rn-demo-vpc"
+  name                 = "my-demo-vpc"
   cidr                 = "10.0.0.0/16"
   azs                  = data.aws_availability_zones.available.names
   private_subnets      = ["10.0.1.0/24", "10.0.2.0/24", "10.0.3.0/24"]
@@ -34,7 +34,7 @@ module "vpc" {
 
   tags = {
     "kubernetes.io/cluster/${local.cluster_name}" = "shared"
-    "owner" = "RN"
+    "owner" = "my"
   }
 
   public_subnet_tags = {
